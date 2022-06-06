@@ -1,0 +1,42 @@
+import React from "react";
+
+import default_profile from '../../assets/blank-profile.png'
+
+export default function Chat({ contact, user, messages, sendMessage }) {
+  return (
+    <>
+      {contact ? (
+        <>
+          <div id="chat-messages" className="overflow-auto py-2 chat-user-input">
+          {messages.map((item, index) => (
+              <div key={index}>
+                <div className={`d-flex py-1 ${item.idSender === user.id ? "justify-content-end": "justify-content-start"}`}>
+                  {item.idSender !== user.id && (
+                    <img src={contact.profile?.image || default_profile} className="rounded-circle me-2 img-chat" alt="bubble avatar" />
+                  )}
+                  <div
+                    className={ item.idSender === user.id ? "chat-me" : "chat-other"}
+                  >
+                    {item.message}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div style={{ height: '6vh', padding: "0 8%" }}className="">
+            <input 
+              placeholder="Send Message" 
+              className="input-message px-4" 
+              onKeyPress={sendMessage} />
+          </div>
+        </>
+      ) : (
+        <div
+          className="h4 d-flex justify-content-center align-items-center chat-user"
+        >
+          No Message
+        </div>
+      )}
+    </>
+  );
+}
